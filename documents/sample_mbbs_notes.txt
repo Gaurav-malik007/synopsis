@@ -1,0 +1,96 @@
+ANATOMY - THE HEART
+====================
+
+Introduction
+The heart is a muscular organ located in the mediastinum of the thoracic cavity, slightly to the left of the midline. It is roughly the size of a closed fist and weighs approximately 250-350 grams in adults. The heart is the central organ of the cardiovascular system, responsible for pumping blood throughout the body.
+
+Pericardium
+The heart is enclosed within a double-walled sac called the pericardium. The pericardium has two layers:
+1. Fibrous pericardium - the tough outer layer that anchors the heart to surrounding structures
+2. Serous pericardium - has two sublayers:
+   a. Parietal layer - lines the fibrous pericardium
+   b. Visceral layer (epicardium) - adheres to the heart surface
+The pericardial cavity between these layers contains a small amount of pericardial fluid (15-50 mL) which reduces friction during heartbeats.
+
+Chambers of the Heart
+The heart has four chambers:
+- Right Atrium (RA): Receives deoxygenated blood from the body via the superior vena cava (SVC) and inferior vena cava (IVC). The coronary sinus also drains into the RA.
+- Right Ventricle (RV): Pumps deoxygenated blood to the lungs via the pulmonary trunk. Has thinner walls compared to the left ventricle.
+- Left Atrium (LA): Receives oxygenated blood from the lungs via four pulmonary veins (two from each lung).
+- Left Ventricle (LV): Pumps oxygenated blood to the entire body via the aorta. Has the thickest walls (approximately 3 times thicker than RV) due to the high pressure needed for systemic circulation.
+
+Valves of the Heart
+The heart has four valves that ensure unidirectional blood flow:
+
+Atrioventricular (AV) Valves:
+- Tricuspid valve: Between the right atrium and right ventricle (has 3 cusps)
+- Mitral valve (Bicuspid valve): Between the left atrium and left ventricle (has 2 cusps)
+Both AV valves are attached to papillary muscles via chordae tendineae, which prevent valve prolapse during ventricular contraction.
+
+Semilunar Valves:
+- Pulmonary valve: Between the right ventricle and pulmonary trunk (has 3 semilunar cusps)
+- Aortic valve: Between the left ventricle and aorta (has 3 semilunar cusps)
+
+Clinical Correlation: Mitral valve prolapse (MVP) is one of the most common valvular disorders, affecting 2-3% of the population. It occurs when the mitral valve leaflets bulge into the left atrium during systole.
+
+Blood Supply to the Heart
+The heart receives its own blood supply through the coronary arteries:
+
+Right Coronary Artery (RCA):
+- Arises from the right aortic sinus
+- Supplies the right atrium, right ventricle, SA node (in 60% of people), AV node (in 80% of people)
+- Gives rise to the posterior descending artery (PDA) in right-dominant circulation (85% of people)
+
+Left Coronary Artery (LCA):
+- Arises from the left aortic sinus
+- Divides into two main branches:
+  1. Left Anterior Descending (LAD) artery - supplies the anterior wall of both ventricles and the anterior 2/3 of the interventricular septum
+  2. Left Circumflex (LCx) artery - supplies the left atrium and lateral wall of the left ventricle
+
+Clinical Correlation: The LAD is sometimes called the "widow maker" because its occlusion leads to a large area of myocardial infarction affecting the anterior wall and septum, which can be fatal.
+
+Venous Drainage:
+- Most venous blood drains into the coronary sinus, which opens into the right atrium
+- Small cardiac veins (venae cordis minimae / Thebesian veins) drain directly into the chambers
+
+Conducting System of the Heart
+The heart has its own intrinsic conducting system that generates and propagates electrical impulses:
+
+1. SA Node (Sinoatrial Node): Located in the wall of the right atrium near the SVC opening. Acts as the natural pacemaker, generating impulses at 60-100 beats per minute.
+
+2. AV Node (Atrioventricular Node): Located in the interatrial septum near the coronary sinus opening. Provides a brief delay (0.1 second) allowing atrial contraction to complete before ventricular contraction begins.
+
+3. Bundle of His: Passes through the fibrous skeleton of the heart from the AV node to the interventricular septum.
+
+4. Bundle Branches: The Bundle of His divides into:
+   - Right bundle branch - travels down the right side of the interventricular septum
+   - Left bundle branch - divides into anterior and posterior fascicles
+
+5. Purkinje Fibers: Terminal branches that spread throughout the ventricular myocardium, enabling rapid and coordinated ventricular contraction.
+
+Clinical Correlation: Heart blocks occur when conduction is impaired at various levels. A complete (third-degree) heart block at the AV node results in complete dissociation between atrial and ventricular rhythms and may require a pacemaker.
+
+Nerve Supply
+The heart receives both sympathetic and parasympathetic innervation:
+
+Sympathetic: From T1-T4 spinal segments via cardiac accelerator nerves
+- Increases heart rate (positive chronotropy)
+- Increases force of contraction (positive inotropy)
+- Increases conduction velocity (positive dromotropy)
+
+Parasympathetic: Via the vagus nerve (CN X)
+- Decreases heart rate (negative chronotropy)
+- Decreases conduction velocity through AV node
+- Minimal effect on ventricular contractility
+
+Clinical Correlation: Referred pain from the heart (as in myocardial infarction) is felt in the T1-T4 dermatomes - this explains why cardiac pain can radiate to the left arm, jaw, and epigastrium.
+
+Surface Anatomy
+The borders of the heart can be mapped on the chest wall:
+- Right border: Right 3rd costal cartilage to right 6th costal cartilage (formed by RA)
+- Inferior border: Right 6th costal cartilage to the apex (formed mainly by RV)
+- Left border: Left 2nd costal cartilage to the apex (formed mainly by LV)
+- Superior border: Lower borders of the 2nd costal cartilages (formed by both atria and great vessels)
+- Apex: Located in the left 5th intercostal space, in the midclavicular line (formed by LV)
+
+The apex beat is normally palpable in the left 5th intercostal space at the midclavicular line.
