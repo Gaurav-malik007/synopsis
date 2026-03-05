@@ -61,12 +61,29 @@ See [REGISTRATION_SETUP.md](REGISTRATION_SETUP.md) for detailed information abou
 
 ## 📱 Mobile Support
 
-Using Synopsis on your phone? Great! The app is fully optimized for mobile with:
-- **Quick Upload Section** — Upload documents and photos directly on the main page (no sidebar needed)
-- **Mobile-Responsive Design** — Automatically formats for different screen sizes
-- **Easy Navigation** — Tap the ☰ menu for sidebar access if needed
+Using Synopsis on your phone? Great! The app is fully optimized for mobile.
 
-For complete mobile tips and troubleshooting, see [MOBILE_GUIDE.md](MOBILE_GUIDE.md)
+### **Option 1: Web App (Recommended) ⭐**
+- **Link:** https://synopsis.streamlit.app/
+- **Install as App:** Open in browser → Tap menu → "Add to home screen"
+- **Works on:** Android, iOS, Windows, Mac
+- **Auto-updates:** Get latest features instantly
+
+### **Option 2: Download Native APK (Android Only)**
+- Get a true native Android app experience
+- Works better in offline mode
+- See [APK_INSTALLATION.md](APK_INSTALLATION.md) for detailed build instructions
+
+### **Features Optimized for Mobile:**
+- Tap the **☰ menu** (top-left) to access upload and features
+- Large touch-friendly buttons
+- Optimized for slow connections
+- Battery-efficient design
+- Works on phone and tablet
+
+For complete mobile tips, troubleshooting, and APK build guide, see:
+- 📱 [MOBILE_GUIDE.md](MOBILE_GUIDE.md) — Usage tips and troubleshooting
+- 📦 [APK_INSTALLATION.md](APK_INSTALLATION.md) — Build and install APK for Android
 
 ## How It Works
 1. **Upload Documents** — Upload PDFs, text files, or photos of notes via the sidebar
