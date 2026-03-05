@@ -282,6 +282,33 @@ st.markdown("""
         background: linear-gradient(135deg, #0D9488, #065F56) !important;
         border-color: #0D9488 !important;
     }
+
+    /* Mobile responsive improvements */
+    @media (max-width: 768px) {
+        .main-header {
+            padding: 1.5rem 1.5rem;
+        }
+        .main-header h1 {
+            font-size: 1.5rem;
+        }
+        .med-card {
+            padding: 1rem;
+        }
+        .feature-card {
+            padding: 1rem !important;
+        }
+    }
+    
+    /* Optimize tabs for mobile */
+    @media (max-width: 600px) {
+        .stTabs [data-baseweb="tab-list"] {
+            gap: 4px;
+        }
+        .stTabs [data-baseweb="tab"] {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+        }
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1197,7 +1224,105 @@ if not st.session_state.chunks_with_embeddings:
         """, unsafe_allow_html=True)
 
     st.markdown("")
-    st.markdown("#### 👈 Upload your notes in the sidebar to get started!")
+    # Mobile-friendly upload prompt
+    st.markdown("""
+    <div style="background: linear-gradient(145deg, #065F56, #0D9488); padding: 1.2rem; border-radius: 12px; border-left: 4px solid #0D9488; margin-bottom: 1.5rem;">
+        <p style="margin: 0; color: #E2E8F0; font-weight: 600;">📱 <strong>On mobile?</strong> Tap the <strong>☰ menu</strong> (top left) to access the upload panel, or use the section below.</p>
+    </div>
+    """)
+    
+    # Main content upload section - mobile friendly
+    st.markdown("### 📂 Upload Your Notes (Quick Access)")
+    st.markdown("<p style='color: #94A3B8; font-size: 0.9rem; margin: -0.5rem 0 1rem 0;'>Upload documents and photos here, or use the sidebar</p>", unsafe_allow_html=True)
+    
+    main_upload_col1, main_upload_col2 = st.columns(2)
+    
+    with main_upload_col1:
+        st.markdown("**📄 Documents**")
+        main_docs = st.file_uploader(
+            "Upload PDFs or text files",
+            type=["pdf", "txt"],
+            accept_multiple_files=True,
+            label_visibility="collapsed",
+            key="main_doc_uploader"
+        )
+    
+    with main_upload_col2:
+        st.markdown("**📸 Photos of Notes**")
+        main_images = st.file_uploader(
+            "Upload photos (JPG, PNG, etc.)",
+            type=["jpg", "jpeg", "png", "webp", "heic"],
+            accept_multiple_files=True,
+            label_visibility="collapsed",
+            key="main_img_uploader"
+        )
+    
+    # Process files from main upload section
+    main_all_uploaded = []
+    if main_docs:
+        main_all_uploaded.extend(main_docs)
+    if main_images:
+        main_all_uploaded.extend(main_images[:20])
+    
+    if main_all_uploaded:
+        # Check if files changed
+        current_names = sorted([f.name for f in main_all_uploaded])
+        prev_names = sorted([info["name"] for info in st.session_state.uploaded_files_info])
+
+        if current_names != prev_names:
+            with st.spinner("🔄 Processing your notes..."):
+                all_chunks = []
+                files_info = []
+                total_files = len(main_all_uploaded)
+
+                for file_idx, uf in enumerate(main_all_uploaded):
+                    file_bytes = uf.read()
+                    fname = uf.name.lower()
+
+                    # File size check
+                    file_size_mb = len(file_bytes) / (1024 * 1024)
+                    if file_size_mb > 20:
+                        st.warning(f"⚠️ {uf.name} is {file_size_mb:.1f} MB — large files may take longer to process.")
+
+                    st.caption(f"📖 Processing {uf.name} ({file_idx + 1}/{total_files})...")
+
+                    if fname.endswith(".txt"):
+                        text = load_text_content(file_bytes, uf.name)
+                    elif fname.endswith(".pdf"):
+                        text = load_pdf_content(file_bytes, uf.name)
+                    elif any(fname.endswith(ext) for ext in IMAGE_EXTENSIONS):
+                        text = load_image_content(file_bytes, uf.name)
+                    else:
+                        continue
+
+                    if text and text.strip():
+                        chunks = split_into_chunks(text)
+                        for chunk in chunks:
+                            all_chunks.append((chunk, uf.name))
+                        files_info.append({
+                            "name": uf.name,
+                            "size": len(file_bytes),
+                            "chunks": len(chunks),
+                            "uploaded_at": datetime.now().isoformat()
+                        })
+
+                # Create embeddings for all chunks
+                if all_chunks:
+                    embedded_chunks = []
+                    for chunk, fname in all_chunks:
+                        emb = create_embedding(chunk)
+                        if emb:
+                            embedded_chunks.append((chunk, emb, fname))
+                    
+                    if embedded_chunks:
+                        st.session_state.chunks_with_embeddings = embedded_chunks
+                        st.session_state.uploaded_files_info = files_info
+                        st.session_state.detected_topics = extract_topics(all_chunks)
+                        st.success(f"✅ Loaded {len(embedded_chunks)} chunks from {total_files} file(s)!")
+                        time.sleep(1.5)
+                        st.rerun()
+    
+    st.markdown("---")
     st.markdown("")
 
     # Quick-start tips

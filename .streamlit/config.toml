@@ -12,9 +12,14 @@ port = 8501
 
 [client]
 showErrorDetails = true
+toolbarMode = "viewer"
 
 [logger]
 level = "info"
 
 [browser]
 gatherUsageStats = false
+
+# Mobile optimization
+[ui]
+scrollBehavior = "smooth"
