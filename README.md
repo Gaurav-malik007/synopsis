@@ -1,0 +1,2 @@
+# synopsis
+learn it yourway
