@@ -14,6 +14,7 @@ An AI-powered study companion that answers questions about your **MBBS notes** u
 - 🧠 **Flashcards** — Active recall practice with self-rated difficulty tracking
 - 📖 **Topic Review** — Quick revision summaries with key points and mnemonics
 - 📸 **Photo Notes** — Upload photos of handwritten notes — Gemini Vision reads them
+- 📋 **Registration System** — User registration form with support for local CSV and Google Sheets storage
 
 ## Prerequisites
 - Python 3.8 or higher
@@ -42,6 +43,20 @@ streamlit run web_app.py
 python rag_app.py
 ```
 (Place `.txt` or `.pdf` files in the `documents/` folder first)
+
+## User Registration
+
+When you first launch the web app, a registration form will appear asking for:
+- **Full Name** — Your complete name
+- **College** — Your medical college or institute name
+- **Batch/Year** — Your academic batch or year (e.g., "2022-2028" or "2nd Year")
+- **Phone Number** — Your contact number
+
+**Registration data is stored in:**
+- ✅ **Local CSV file** (`registrations.csv`) — Always saved automatically
+- 📊 **Google Sheets** (Optional) — Follow [GOOGLE_SHEETS_SETUP.md](GOOGLE_SHEETS_SETUP.md) to enable
+
+See [REGISTRATION_SETUP.md](REGISTRATION_SETUP.md) for detailed information about the registration system.
 
 ## How It Works
 1. **Upload Documents** — Upload PDFs, text files, or photos of notes via the sidebar

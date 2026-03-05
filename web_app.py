@@ -12,6 +12,8 @@ import random
 import json
 import time
 import tempfile
+import csv
+from datetime import datetime
 from pathlib import Path
 from io import BytesIO
 
@@ -19,13 +21,14 @@ import streamlit as st
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
+from google_sheets_handler import GoogleSheetsHandler
 
 # Load .env for local development
 load_dotenv()
 
 # --- Page Config ---
 st.set_page_config(
-    page_title="MBBS Notes RAG Agent",
+    page_title="Synopsis — Learn It Your Way",
     page_icon="🩺",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -741,7 +744,52 @@ Study material:
     return response.text, source_file
 
 
+# --- CSV Registration Helper ---
+REGISTRATIONS_CSV = Path(__file__).parent / "registrations.csv"
+
+def save_registration(name, college, batch, phone):
+    """Append user registration to local CSV file and Google Sheets."""
+    # Save to local CSV
+    file_exists = REGISTRATIONS_CSV.exists()
+    with open(REGISTRATIONS_CSV, "a", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["Timestamp", "Name", "College", "Batch", "Phone"])
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow({
+            "Timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "Name": name,
+            "College": college,
+            "Batch": batch,
+            "Phone": phone,
+        })
+    
+    # Try to save to Google Sheets if configured
+    try:
+        sheet_config = os.getenv("GOOGLE_SHEET_CREDENTIALS")
+        sheet_url = os.getenv("GOOGLE_SHEET_URL")
+        
+        if sheet_config and sheet_url:
+            sheets_handler = GoogleSheetsHandler(
+                credentials_file=sheet_config,
+                sheet_name="Registrations"
+            )
+            sheets_handler.open_sheet(sheet_url)
+            result = sheets_handler.add_registration(name, college, batch, phone)
+            if result['success']:
+                print(f"✓ Saved to Google Sheets: {name}")
+            else:
+                print(f"⚠ Google Sheets save warning: {result['message']}")
+    except Exception as e:
+        # Not critical - data is already saved locally
+        print(f"⚠ Google Sheets connection hint: {str(e)[:100]}...")
+
+
+
 # --- Session State Init ---
+if "user_registered" not in st.session_state:
+    st.session_state.user_registered = False
+if "registered_name" not in st.session_state:
+    st.session_state.registered_name = ""
 if "chunks_with_embeddings" not in st.session_state:
     st.session_state.chunks_with_embeddings = []
 if "uploaded_files_info" not in st.session_state:
@@ -776,11 +824,129 @@ if "mcq_answers_log" not in st.session_state:
     st.session_state.mcq_answers_log = []
 
 
+# ═══════════════════════════════════════════════════════════
+# --- REGISTRATION SCREEN ---
+# ═══════════════════════════════════════════════════════════
+if not st.session_state.user_registered:
+    # Registration CSS
+    st.markdown("""
+    <style>
+    /* Full-screen overlay behind registration */
+    .reg-wrapper {
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+    .reg-card {
+        background: linear-gradient(145deg, #0F172A, #1E293B);
+        border: 1px solid #0D9488;
+        border-radius: 24px;
+        padding: 2.5rem 2.5rem 2rem 2.5rem;
+        box-shadow: 0 20px 60px rgba(13,148,136,0.25), 0 0 0 1px rgba(13,148,136,0.1);
+        animation: fadeInUp 0.5s ease-out;
+    }
+    .reg-logo {
+        text-align: center;
+        font-size: 3.5rem;
+        margin-bottom: 0.5rem;
+    }
+    .reg-title {
+        text-align: center;
+        color: #ffffff;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0 0 0.2rem 0;
+        letter-spacing: -0.5px;
+    }
+    .reg-sub {
+        text-align: center;
+        color: #94A3B8;
+        font-size: 0.95rem;
+        margin: 0 0 2rem 0;
+    }
+    .reg-divider {
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #334155, transparent);
+        margin: 1.5rem 0;
+    }
+    .reg-footer {
+        text-align: center;
+        color: #64748B;
+        font-size: 0.8rem;
+        margin-top: 1rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # Centered layout
+    _, center_col, _ = st.columns([1, 2.2, 1])
+    with center_col:
+        st.markdown('<div class="reg-card">', unsafe_allow_html=True)
+        st.markdown('<div class="reg-logo">🩺</div>', unsafe_allow_html=True)
+        st.markdown('<p class="reg-title">Synopsis</p>', unsafe_allow_html=True)
+        st.markdown('<p style="text-align:center;color:#0D9488;font-size:0.85rem;font-weight:600;margin:-1rem 0 0.4rem 0;letter-spacing:1px;">BY GAURAV MALIK</p>', unsafe_allow_html=True)
+        st.markdown('<p class="reg-sub">Learn It Your Way — Create your student profile to get started</p>', unsafe_allow_html=True)
+        st.markdown('<div class="reg-divider"></div>', unsafe_allow_html=True)
+
+        with st.form("registration_form", clear_on_submit=False):
+            name = st.text_input("👤 Full Name", placeholder="e.g. Dr. Riya Sharma")
+            college = st.text_input("🏫 College / Medical Institute", placeholder="e.g. AIIMS Delhi")
+            batch = st.text_input("📅 Batch / Year", placeholder="e.g. 2022-2028 / 2nd Year")
+            phone = st.text_input("📱 Phone Number", placeholder="e.g. 9876543210", max_chars=15)
+
+            st.markdown("<br>", unsafe_allow_html=True)
+            submitted = st.form_submit_button(
+                "🚀  Register & Enter App",
+                use_container_width=True,
+                type="primary"
+            )
+
+            if submitted:
+                # Validation
+                errors = []
+                if not name.strip():
+                    errors.append("• Full Name is required")
+                if not college.strip():
+                    errors.append("• College is required")
+                if not batch.strip():
+                    errors.append("• Batch / Year is required")
+                if not phone.strip():
+                    errors.append("• Phone Number is required")
+                elif not re.match(r'^[\d\s\+\-\(\)]{7,15}$', phone.strip()):
+                    errors.append("• Enter a valid phone number (7–15 digits)")
+
+                if errors:
+                    st.error("Please fix the following:\n" + "\n".join(errors))
+                else:
+                    try:
+                        save_registration(
+                            name.strip(), college.strip(),
+                            batch.strip(), phone.strip()
+                        )
+                        st.session_state.user_registered = True
+                        st.session_state.registered_name = name.strip().split()[0]
+                        st.success(f"✅ Welcome, {name.strip().split()[0]}! Loading your study companion...")
+                        time.sleep(1)
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Could not save registration: {e}")
+
+        st.markdown('<p class="reg-footer">🔒 Your data is stored locally and never shared.</p>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    st.stop()  # Don't render the main app until registered
+
+# ═══════════════════════════════════════════════════════════
+
+
 # --- Header ---
-st.markdown("""
+_first_name = st.session_state.get("registered_name", "")
+_welcome = f" — Welcome back, {_first_name}! 👋" if _first_name else ""
+st.markdown(f"""
 <div class="main-header">
-    <h1>🩺 MBBS Notes RAG Agent</h1>
-    <p>Your AI-Powered Study Companion — Upload notes, ask questions, take quizzes</p>
+    <h1>🩺 Synopsis</h1>
+    <p style="color:#5EEAD4;font-size:0.78rem;font-weight:600;letter-spacing:2px;margin:0.1rem 0 0.3rem 0;">BY GAURAV MALIK</p>
+    <p>Learn It Your Way{_welcome}</p>
 </div>
 """, unsafe_allow_html=True)
 
