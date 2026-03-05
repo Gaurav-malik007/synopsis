@@ -1229,7 +1229,7 @@ if not st.session_state.chunks_with_embeddings:
     <div style="background: linear-gradient(145deg, #065F56, #0D9488); padding: 1.2rem; border-radius: 12px; border-left: 4px solid #0D9488; margin-bottom: 1.5rem;">
         <p style="margin: 0; color: #E2E8F0; font-weight: 600;">📱 <strong>On mobile?</strong> Tap the <strong>☰ menu</strong> (top left) to access the upload panel with all features!</p>
     </div>
-    """)
+    """, unsafe_allow_html=True)
     st.markdown("")
 
     # Quick-start tips
