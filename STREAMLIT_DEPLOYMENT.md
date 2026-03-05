@@ -70,15 +70,15 @@ client_x509_cert_url = "https://..."
 
 ---
 
-## Your App URL
+## 🎉 Your Live App URL
 
-Once deployed, your app will be available at:
+Your app is now available at:
 
 ```
-https://gaurav-malik007-synopsis.streamlit.app
+https://synopsis.streamlit.app/
 ```
 
-(The exact URL will be shown in Streamlit Cloud dashboard)
+**This is your official app URL! Share this with everyone!** ✨
 
 ---
 

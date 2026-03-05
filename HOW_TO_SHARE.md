@@ -6,9 +6,9 @@ Your app can be shared in multiple ways depending on your audience and preferenc
 
 ## 🚀 **Option 1: Share Live Streamlit Cloud URL (EASIEST)**
 
-Once your app is deployed on Streamlit Cloud, you get a public URL like:
+Your app is LIVE at:
 ```
-https://gaurav-malik007-synopsis.streamlit.app
+https://synopsis.streamlit.app/
 ```
 
 ### **How to Share:**
@@ -406,3 +406,63 @@ When others use your app, be ready to help with:
 ---
 
 **Your app is ready to be shared! Pick one or more methods above and start reaching MBBS students! 🎉**
+
+---
+
+## 📍 **YOUR LIVE APP - SHARE THIS NOW!**
+
+### **🎉 Your App is LIVE at:**
+```
+https://synopsis.streamlit.app/
+```
+
+**Just share this single link with everyone!** ✨
+
+It works on:
+- ✅ Phones (WhatsApp, SMS)
+- ✅ Computers (Email, Social Media)
+- ✅ Tablets (Any share method)
+- ✅ QR codes (Print posters)
+
+---
+
+### **Quick Share - Copy & Paste:**
+
+**WhatsApp/Telegram:**
+```
+Check out Synopsis - Free AI MBBS study app! 🩺
+
+✨ Upload notes → Ask questions
+📝 Auto MCQs → Analyze NEET/UPSC papers
+🧠 Flashcards → Smart revision
+
+https://synopsis.streamlit.app/
+
+Try it now! 📖
+```
+
+**Email Subject:**
+```
+📚 Free MBBS Study Companion - Try Synopsis!
+```
+
+**Email Body:**
+```
+Hi,
+
+I've built a free MBBS study app called Synopsis!
+
+✅ Upload your notes
+✅ Ask questions - get AI answers
+✅ Auto MCQ quizzes
+✅ Flashcards for revision
+✅ Analyze NEET PG & UPSC CMS papers
+
+Try it here: https://synopsis.streamlit.app/
+
+Share with your study group! 📖
+```
+
+---
+
+**Start sharing today! 🚀**
