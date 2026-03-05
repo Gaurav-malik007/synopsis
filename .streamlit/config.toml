@@ -7,3 +7,14 @@ font = "sans serif"
 
 [server]
 maxUploadSize = 50
+headless = true
+port = 8501
+
+[client]
+showErrorDetails = true
+
+[logger]
+level = "info"
+
+[browser]
+gatherUsageStats = false
