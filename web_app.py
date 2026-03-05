@@ -744,6 +744,64 @@ Study material:
     return response.text, source_file
 
 
+def analyze_exam_paper(paper_text, paper_year, exam_type="NEET PG"):
+    """Analyze an exam paper and extract key information and explanations."""
+    prompt = f"""Analyze this {exam_type} {paper_year} exam paper and provide:
+1. **Overall Difficulty**: Easy/Moderate/Difficult
+2. **Key Topics Tested** (top 5)
+3. **Question Distribution**: Most common types
+4. **Trending Concepts**: What topics appeared frequently
+5. **Study Recommendations**: What to focus on
+
+Paper:
+{paper_text[:3000]}...  (showing first part of paper)
+
+Provide a comprehensive analysis in structured format."""
+
+    response = gemini_call_with_retry(
+        client.models.generate_content,
+        model="gemini-2.5-flash",
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            system_instruction=f"You are an expert {exam_type} exam analyzer. Provide insights medical students can use for preparation.",
+            temperature=0.7,
+            max_output_tokens=1000,
+        )
+    )
+    return response.text
+
+
+def generate_paper_questions(paper_text, num_questions=5, exam_type="NEET PG"):
+    """Generate practice questions based on exam paper patterns."""
+    prompt = f"""Based on the patterns in this {exam_type} exam paper, generate {num_questions} NEW practice questions
+in the same style. Each question should be realistic and challenging.
+
+Paper excerpt:
+{paper_text[:2000]}
+
+Return as a JSON array with:
+- "question": The MCQ question
+- "options": {{"A": "...", "B": "...", "C": "...", "D": "..."}}
+- "correct": Correct answer (A/B/C/D)
+- "explanation": Why this is correct
+- "difficulty": Easy/Moderate/Difficult
+- "topic": Relevant topic
+
+Return ONLY valid JSON array."""
+
+    response = gemini_call_with_retry(
+        client.models.generate_content,
+        model="gemini-2.5-flash",
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            system_instruction=f"Create realistic {exam_type} practice questions. Return only valid JSON.",
+            temperature=0.8,
+            max_output_tokens=2000,
+        )
+    )
+    return parse_json_response(response.text)
+
+
 # --- CSV Registration Helper ---
 REGISTRATIONS_CSV = Path(__file__).parent / "registrations.csv"
 
@@ -822,6 +880,14 @@ if "selected_topic" not in st.session_state:
     st.session_state.selected_topic = "All Topics"
 if "mcq_answers_log" not in st.session_state:
     st.session_state.mcq_answers_log = []
+if "neet_pg_papers" not in st.session_state:
+    st.session_state.neet_pg_papers = []
+if "upsc_cms_papers" not in st.session_state:
+    st.session_state.upsc_cms_papers = []
+if "current_paper" not in st.session_state:
+    st.session_state.current_paper = None
+if "paper_type" not in st.session_state:
+    st.session_state.paper_type = None
 
 
 # ═══════════════════════════════════════════════════════════
@@ -1158,11 +1224,13 @@ if not st.session_state.chunks_with_embeddings:
     """, unsafe_allow_html=True)
 
 else:
-    tab1, tab2, tab3, tab4 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "💬 Ask Questions",
         "📝 MCQ Quiz",
         "🧠 Flashcards",
-        "📖 Topic Review"
+        "📖 Topic Review",
+        "📚 NEET PG Papers",
+        "🏥 UPSC CMS Papers"
     ])
 
     # ── TAB 1: Q&A ──
@@ -1471,3 +1539,217 @@ else:
                     """, unsafe_allow_html=True)
                 except Exception as e:
                     st.error(f"❌ {e}")
+
+    # ── TAB 5: NEET PG Papers ──
+    with tab5:
+        st.markdown("### 📚 NEET PG Previous Year Papers")
+        st.caption("Analyze, practice, and master NEET PG exams")
+        
+        neet_col1, neet_col2, neet_col3 = st.columns(3)
+        
+        with neet_col1:
+            st.metric("📄 Papers Loaded", len(st.session_state.neet_pg_papers))
+        with neet_col2:
+            st.metric("✅ Practice Tests", 0)
+        with neet_col3:
+            st.metric("📗 Years Available", "2015-2024")
+        
+        st.markdown("---")
+        
+        # Upload papers
+        st.markdown("#### 📥 Upload NEET PG Papers")
+        neet_papers = st.file_uploader(
+            "Upload NEET PG question papers (PDF or TXT)",
+            type=["pdf", "txt"],
+            accept_multiple_files=True,
+            key="neet_papers",
+            help="Upload previous years' NEET PG papers to analyze trends and practice"
+        )
+        
+        if neet_papers:
+            with st.spinner("🔄 Processing NEET PG papers..."):
+                for paper_file in neet_papers:
+                    file_bytes = paper_file.read()
+                    fname = paper_file.name.lower()
+                    
+                    if fname.endswith(".txt"):
+                        paper_text = load_text_content(file_bytes, paper_file.name)
+                    elif fname.endswith(".pdf"):
+                        paper_text = load_pdf_content(file_bytes, paper_file.name)
+                    else:
+                        continue
+                    
+                    if paper_text and paper_text.strip():
+                        st.session_state.neet_pg_papers.append({
+                            "name": paper_file.name,
+                            "text": paper_text,
+                            "year": paper_file.name
+                        })
+                
+                st.success(f"✅ Loaded {len(neet_papers)} NEET PG paper(s)")
+        
+        if st.session_state.neet_pg_papers:
+            st.markdown("---")
+            st.markdown("#### 🔍 Paper Analysis & Practice")
+            
+            paper_option = st.selectbox(
+                "Select a paper to analyze:",
+                [p["name"] for p in st.session_state.neet_pg_papers],
+                key="neet_select"
+            )
+            
+            selected_neet = next((p for p in st.session_state.neet_pg_papers if p["name"] == paper_option), None)
+            
+            if selected_neet:
+                neet_action = st.radio(
+                    "What do you want to do?",
+                    ["📊 Analyze Paper", "📖 Generate Practice Questions", "💾 View Paper"],
+                    key="neet_action"
+                )
+                
+                if neet_action == "📊 Analyze Paper":
+                    if st.button("🔍 Analyze", key="neet_analyze"):
+                        with st.spinner("Analyzing paper structure and content..."):
+                            try:
+                                analysis = analyze_exam_paper(selected_neet["text"], selected_neet["year"], "NEET PG")
+                                st.markdown(f"""
+                                <div class="med-card">
+                                    {analysis}
+                                </div>
+                                """, unsafe_allow_html=True)
+                            except Exception as e:
+                                st.error(f"❌ {e}")
+                
+                elif neet_action == "📖 Generate Practice Questions":
+                    num = st.slider("How many questions?", 1, 10, 5, key="neet_num")
+                    if st.button("Generate Questions", key="neet_gen_q"):
+                        with st.spinner(f"Generating {num} questions based on NEET PG patterns..."):
+                            try:
+                                questions = generate_paper_questions(selected_neet["text"], num, "NEET PG")
+                                for i, q in enumerate(questions, 1):
+                                    st.markdown(f"""
+                                    <div class="med-card">
+                                        <h4>Q{i}: {q.get('question', 'N/A')}</h4>
+                                        <p><strong>Difficulty:</strong> {q.get('difficulty', 'N/A')} | <strong>Topic:</strong> {q.get('topic', 'N/A')}</p>
+                                        <p><strong>A)</strong> {q.get('options', {}).get('A', '')}<br>
+                                           <strong>B)</strong> {q.get('options', {}).get('B', '')}<br>
+                                           <strong>C)</strong> {q.get('options', {}).get('C', '')}<br>
+                                           <strong>D)</strong> {q.get('options', {}).get('D', '')}</p>
+                                        <p style="color: #10B981;"><strong>Answer:</strong> {q.get('correct', 'N/A')} - {q.get('explanation', '')}</p>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                            except Exception as e:
+                                st.error(f"❌ {e}")
+                
+                elif neet_action == "💾 View Paper":
+                    st.text_area("Paper Content:", value=selected_neet["text"][:2000] + "...", height=300, disabled=True)
+        
+        else:
+            st.info("👆 Upload NEET PG papers to analyze trends and generate practice questions!")
+
+    # ── TAB 6: UPSC CMS Papers ──
+    with tab6:
+        st.markdown("### 🏥 UPSC CMS Previous Year Papers")
+        st.caption("Master UPSC CMS exam with previous year analysis")
+        
+        cms_col1, cms_col2, cms_col3 = st.columns(3)
+        
+        with cms_col1:
+            st.metric("📄 Papers Loaded", len(st.session_state.upsc_cms_papers))
+        with cms_col2:
+            st.metric("✅ Practice Tests", 0)
+        with cms_col3:
+            st.metric("📗 Years Available", "2015-2024")
+        
+        st.markdown("---")
+        
+        # Upload papers
+        st.markdown("#### 📥 Upload UPSC CMS Papers")
+        cms_papers = st.file_uploader(
+            "Upload UPSC CMS question papers (PDF or TXT)",
+            type=["pdf", "txt"],
+            accept_multiple_files=True,
+            key="cms_papers",
+            help="Upload previous years' UPSC CMS papers to analyze trends and practice"
+        )
+        
+        if cms_papers:
+            with st.spinner("🔄 Processing UPSC CMS papers..."):
+                for paper_file in cms_papers:
+                    file_bytes = paper_file.read()
+                    fname = paper_file.name.lower()
+                    
+                    if fname.endswith(".txt"):
+                        paper_text = load_text_content(file_bytes, paper_file.name)
+                    elif fname.endswith(".pdf"):
+                        paper_text = load_pdf_content(file_bytes, paper_file.name)
+                    else:
+                        continue
+                    
+                    if paper_text and paper_text.strip():
+                        st.session_state.upsc_cms_papers.append({
+                            "name": paper_file.name,
+                            "text": paper_text,
+                            "year": paper_file.name
+                        })
+                
+                st.success(f"✅ Loaded {len(cms_papers)} UPSC CMS paper(s)")
+        
+        if st.session_state.upsc_cms_papers:
+            st.markdown("---")
+            st.markdown("#### 🔍 Paper Analysis & Practice")
+            
+            paper_option = st.selectbox(
+                "Select a paper to analyze:",
+                [p["name"] for p in st.session_state.upsc_cms_papers],
+                key="cms_select"
+            )
+            
+            selected_cms = next((p for p in st.session_state.upsc_cms_papers if p["name"] == paper_option), None)
+            
+            if selected_cms:
+                cms_action = st.radio(
+                    "What do you want to do?",
+                    ["📊 Analyze Paper", "📖 Generate Practice Questions", "💾 View Paper"],
+                    key="cms_action"
+                )
+                
+                if cms_action == "📊 Analyze Paper":
+                    if st.button("🔍 Analyze", key="cms_analyze"):
+                        with st.spinner("Analyzing paper structure and content..."):
+                            try:
+                                analysis = analyze_exam_paper(selected_cms["text"], selected_cms["year"], "UPSC CMS")
+                                st.markdown(f"""
+                                <div class="med-card">
+                                    {analysis}
+                                </div>
+                                """, unsafe_allow_html=True)
+                            except Exception as e:
+                                st.error(f"❌ {e}")
+                
+                elif cms_action == "📖 Generate Practice Questions":
+                    num = st.slider("How many questions?", 1, 10, 5, key="cms_num")
+                    if st.button("Generate Questions", key="cms_gen_q"):
+                        with st.spinner(f"Generating {num} questions based on UPSC CMS patterns..."):
+                            try:
+                                questions = generate_paper_questions(selected_cms["text"], num, "UPSC CMS")
+                                for i, q in enumerate(questions, 1):
+                                    st.markdown(f"""
+                                    <div class="med-card">
+                                        <h4>Q{i}: {q.get('question', 'N/A')}</h4>
+                                        <p><strong>Difficulty:</strong> {q.get('difficulty', 'N/A')} | <strong>Topic:</strong> {q.get('topic', 'N/A')}</p>
+                                        <p><strong>A)</strong> {q.get('options', {}).get('A', '')}<br>
+                                           <strong>B)</strong> {q.get('options', {}).get('B', '')}<br>
+                                           <strong>C)</strong> {q.get('options', {}).get('C', '')}<br>
+                                           <strong>D)</strong> {q.get('options', {}).get('D', '')}</p>
+                                        <p style="color: #10B981;"><strong>Answer:</strong> {q.get('correct', 'N/A')} - {q.get('explanation', '')}</p>
+                                    </div>
+                                    """, unsafe_allow_html=True)
+                            except Exception as e:
+                                st.error(f"❌ {e}")
+                
+                elif cms_action == "💾 View Paper":
+                    st.text_area("Paper Content:", value=selected_cms["text"][:2000] + "...", height=300, disabled=True)
+        
+        else:
+            st.info("👆 Upload UPSC CMS papers to analyze trends and generate practice questions!")
