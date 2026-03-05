@@ -1,79 +1,184 @@
 # 📱 Mobile Guide — Using Synopsis on Your Phone
 
-## The Mobile Sidebar Issue & Solution
+## Installation Options for Your Phone
 
-On mobile devices, Streamlit hides the sidebar by default to save screen space. Here's how to upload notes on your phone:
+### **🌟 Option 1: Install as App (Recommended - 2 minutes)**
 
----
+The EASIEST way to get Synopsis as an app on your phone:
 
-## **Method 1: Quick Upload (Recommended for Mobile) ✨**
+#### **For Android:**
+1. Open your **phone browser** and go to: https://synopsis.streamlit.app/
+2. Tap the **⋮ (three dots menu)** at the top-right
+3. Tap **"Add to home screen"** or **"Install app"**
+4. Give it a name (default: "Synopsis")
+5. Tap **"Install"**
 
-When you first open the app on mobile, you'll see a dedicated **"📂 Upload Your Notes"** section right in the middle of the screen with two parts:
+✅ App icon appears on your home screen!
 
-1. **📄 Documents** — Tap to upload PDFs or text files
-2. **📸 Photos of Notes** — Tap to upload photos of handwritten notes
+#### **For iPhone:**
+1. Open Safari and go to: https://synopsis.streamlit.app/
+2. Tap the **Share** button at the bottom
+3. Scroll down and tap **"Add to Home Screen"**
+4. Name it "Synopsis"
+5. Tap **"Add"**
 
-This is specifically designed for mobile users — no need to access the sidebar!
+✅ App is now on your home screen!
 
----
-
-## **Method 2: Using the Sidebar (if you prefer)**
-
-If you want to use the sidebar on mobile:
-
-1. **Tap the ☰ (hamburger menu)** at the top-left corner of your screen
-2. A sidebar will slide in from the left
-3. Tap **"📂 Upload Your Notes"** in the sidebar
-4. Choose **"📄 Documents"** or **"📸 Photos"** tabs
-5. Tap to select files to upload
-
----
-
-## **Tips for Mobile Users**
-
-### 📸 **Taking Photos of Notes**
-- **Best lighting**: Natural daylight or bright room
-- **Angle**: Hold phone at 30-45° angle to avoid glare
-- **Focus**: Make sure text is clear and readable
-- **Distance**: Fill ⅔ of the frame with the note page
-- **Batch upload**: You can upload up to 20 photos at once
-
-### 📄 **Uploading Documents**
-- **PDF files**: Export from Notes app, camera scans, or already saved PDFs
-- **Text files (.txt)**: Use any text editor and save as `.txt`
-- **Multiple files**: Upload multiple files at once to process faster
-- **File size**: Files larger than 20MB will take longer to process
-
-### ⚡ **Quick Tips**
-- Upload one subject at a time for faster processing
-- Tap **"💬 Ask Questions"** tab after upload to start chatting with your notes
-- Photos of notes are automatically converted to text via AI
-- All your data is stored locally (no data sharing)
+**Benefits:**
+- ✅ Works like a native app
+- ✅ Auto-updates with new features
+- ✅ Works on ANY phone (Android, iPhone, Windows, Mac)
+- ✅ No installation hassles
+- ✅ Offline support
 
 ---
 
-## **Troubleshooting**
+### **📦 Option 2: Download APK File (For Android Only)**
 
-### **"My sidebar disappeared on mobile"**
-- Tap the ☰ menu again — it should appear
-- Try refreshing the page (swipe down and release on iOS, or use refresh button)
+**What is an APK?** It's a native Android app file you download and install directly.
 
-### **"Upload buttons not working"**
-- Make sure your phone has good internet connection
-- Try using the sidebar method instead
-- Clear your browser cache and reload
+#### **Where to get APK:**
+1. **Easiest:** Ask your seniors or Gaurav for the pre-built APK
+2. **Build yourself:** See [APK_INSTALLATION.md](APK_INSTALLATION.md) for detailed guide
+3. **Using online tools:** Use services like Kivy buildozer or similar
 
-### **"Photos aren't processing"**
-- Make sure text in photo is clear and readable
-- Try uploading fewer photos at a time (max 20)
-- Check file size — very large images may timeout
+#### **How to install APK on Android:**
+1. Get the `.apk` file (usually named `synopsis-0.1-debug.apk`)
+2. Download it to your phone (email, WhatsApp, Google Drive, etc.)
+3. Open **Files** or **File Manager** app
+4. Find the downloaded APK file
+5. Tap it to install
+6. If prompted "Unknown source" → Go to Settings → Apps → Enable "Install unknown apps"
+7. Complete the installation
+8. Tap **"Open"** to launch, or find in your app drawer
 
-### **"Files uploaded but I don't see them"**
-- Scroll down on the main page after upload completes
-- Check if the processing finished (you'll see "✅ Loaded X chunks...")
-- Try refreshing the page
+**Advantages of APK:**
+- ✅ True native app feel
+- ✅ Better offline support
+- ✅ Might be faster (needs internet for AI features though)
+- X Larger file size (~150MB)
+- X Manual updates required
 
 ---
+
+## How to Use Synopsis on Mobile
+
+### **Step 1: Upload Your Study Materials**
+
+**Method A: Using the Web App**
+1. Open https://synopsis.streamlit.app/ on your phone
+2. Tap **☰ menu** (hamburger, top-left corner)
+3. You'll see **"📂 Upload Your Notes"** in the sidebar
+4. Choose either:
+   - **📄 Documents tab** → Upload PDF or TXT files
+   - **📸 Photos tab** → Upload photos of handwritten notes
+5. Tap the upload button and select your files
+6. Wait for **"✅ Loaded X chunks..."** message
+
+**Method B: Using Mobile App (if APK installed)**
+- Upload section is directly on the main page
+- Same process, no need to access sidebar
+
+### **Step 2: Start Studying**
+
+After upload completes, you'll see these tabs:
+
+🗨️ **Ask Questions** — Chat with your notes
+- Type any question: "What is photosynthesis?"
+- Get instant AI answers with sources
+- Bookmark important answers
+
+📝 **MCQ Quiz** — Practice exams
+- Select topic or use all topics
+- Get random medical questions
+- See explanations and scoring
+
+🧠 **Flashcards** — Quick revision
+- Review key medical concepts
+- Rate difficulty (easy/hard)
+- Spaced repetition based on difficulty
+
+📖 **Topic Review** — Study guides
+- Auto-generated summaries
+- Key points and mnemonics
+- Quick reference sheets
+
+📚 **NEET PG Papers** (medical students)
+- Analyze previous year papers
+- Question pattern analysis
+- Practice with AI-generated questions
+
+🏥 **UPSC CMS Papers** (UPSC aspirants)
+- Same features for UPSC exam format
+
+### **📸 Tips for Best Photo Results**
+- Use **natural light** (near window or daylight)
+- Hold phone at **30-45° angle** to avoid glare and shadows
+- Keep notes **filling ⅔ of screen** — not too close, not too far
+- Make sure **text is sharp and readable**
+- **Batch upload** up to 20 photos at once
+- One subject per batch for better accuracy
+
+### **📄 Tips for Document Upload**
+- Use **PDF files** from textbooks or scanned notes
+- Use **.txt files** for typed notes
+- Upload **one subject at a time** for focused studying
+- Files up to **20MB** work best
+- Larger files take longer (normal) — be patient!
+
+### **💬 Asking Better Questions**
+- ✅ **Specific**: "Explain the cardiac conducting system with node locations"
+- ✅ **Medical terms**: "What are the causes of acute coronary syndrome?"
+- ✅ **Detailed**: "Compare type 1 and type 2 diabetes mellitus"
+- ❌ **Avoid vague**: "What is diabetes?"
+- ❌ **Too broad**: "Tell me about the heart"
+
+---
+
+---
+
+## Troubleshooting
+
+### **"Can't see upload section in sidebar"**
+- Tap the **☰ menu** (hamburger) at top-left corner
+- Sidebar should slide in from the left
+- If still missing, **refresh the page** (swipe down or F5)
+- Clear browser cache: Settings → Clear browsing data
+
+### **"Upload buttons not responding"**
+- Check your **internet connection** (WiFi is better)
+- Try uploading **fewer files** at once
+- **Refresh the page** and try again
+- Try a **different browser** (Chrome, Safari, Firefox)
+
+### **"Photos aren't being recognized"**
+- Make sure **text in photo is clear** (not blurry or shadowed)
+- Use **good lighting** — avoid shadows
+- Upload **1-2 photos at a time** to test
+- **Crop photo** to show only notes (remove blank areas)
+
+### **"Processing takes too long"**
+- ⏱️ **Normal**: 20-60 seconds is typical for file processing
+- ✅ **Wait for**: The **"✅ Loaded X chunks..."** message
+- Try **WiFi** instead of mobile data
+- **Be patient** — AI processing happens on our servers
+
+### **"App becomes unresponsive/crashes"**
+- **Refresh**: Pull to refresh on mobile or press F5
+- **Force close**: Close app completely, wait 5 sec, reopen
+- **Clear cache**: Settings → Browser → Clear data
+- **Restart phone**: Fixes memory issues sometimes
+
+### **"Files uploaded but nothing happens"**
+- Look for **"✅ Loaded X chunks..."** message
+- **Scroll down** — message appears at bottom
+- **Refresh page** if message doesn't appear
+- Try uploading **one file at a time**
+
+### **"Want to download APK instead?"**
+- See [APK_INSTALLATION.md](APK_INSTALLATION.md) for detailed guide
+- Download pre-built APK or build your own
+- More native feel, better offline support
 
 ## **Browser Recommendations**
 
