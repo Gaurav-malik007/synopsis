@@ -15,6 +15,7 @@ An AI-powered study companion that answers questions about your **MBBS notes** u
 - 📖 **Topic Review** — Quick revision summaries with key points and mnemonics
 - 📸 **Photo Notes** — Upload photos of handwritten notes — Gemini Vision reads them
 - 📋 **Registration System** — User registration form with support for local CSV and Google Sheets storage
+- 📱 **Mobile-Optimized** — Works great on phones and tablets with dedicated mobile upload interface
 
 ## Prerequisites
 - Python 3.8 or higher
@@ -57,6 +58,15 @@ When you first launch the web app, a registration form will appear asking for:
 - 📊 **Google Sheets** (Optional) — Follow [GOOGLE_SHEETS_SETUP.md](GOOGLE_SHEETS_SETUP.md) to enable
 
 See [REGISTRATION_SETUP.md](REGISTRATION_SETUP.md) for detailed information about the registration system.
+
+## 📱 Mobile Support
+
+Using Synopsis on your phone? Great! The app is fully optimized for mobile with:
+- **Quick Upload Section** — Upload documents and photos directly on the main page (no sidebar needed)
+- **Mobile-Responsive Design** — Automatically formats for different screen sizes
+- **Easy Navigation** — Tap the ☰ menu for sidebar access if needed
+
+For complete mobile tips and troubleshooting, see [MOBILE_GUIDE.md](MOBILE_GUIDE.md)
 
 ## How It Works
 1. **Upload Documents** — Upload PDFs, text files, or photos of notes via the sidebar
